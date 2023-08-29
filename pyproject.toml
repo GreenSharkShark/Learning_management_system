@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "drf-homeworks"
+version = "0.1.0"
+description = ""
+authors = ["Zhorik Zeniuk <Zhorik.me@list.ru>"]
+readme = "README.md"
+packages = [{include = "drf_homeworks"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.4"
+pillow = "^10.0.0"
+psycopg2-binary = "^2.9.7"
+python-dotenv = "^1.0.0"
+djangorestframework = "^3.14.0"
+ipython = "^8.14.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
