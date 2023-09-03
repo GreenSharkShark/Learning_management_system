@@ -1,0 +1,92 @@
+[
+  {
+    "model": "lms.lesson",
+    "pk": 1,
+    "fields": {
+      "title": "Урок 1",
+      "preview": "lesson_preview/lesson1.jpg",
+      "description": "Описание урока 1",
+      "course": 1
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 2,
+    "fields": {
+      "title": "Урок 2",
+      "preview": "lesson_preview/lesson2.jpg",
+      "description": "Описание урока 2",
+      "course": 1
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 3,
+    "fields": {
+      "title": "Урок 3",
+      "preview": "lesson_preview/lesson3.jpg",
+      "description": "Описание урока 3",
+      "course": 1
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 4,
+    "fields": {
+      "title": "Урок 1",
+      "preview": "lesson_preview/lesson4.jpg",
+      "description": "Описание урока 1",
+      "course": 2
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 5,
+    "fields": {
+      "title": "Урок 2",
+      "preview": "lesson_preview/lesson5.jpg",
+      "description": "Описание урока 2",
+      "course": 2
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 6,
+    "fields": {
+      "title": "Урок 3",
+      "preview": "lesson_preview/lesson6.jpg",
+      "description": "Описание урока 3",
+      "course": 2
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 7,
+    "fields": {
+      "title": "Урок 1",
+      "preview": "lesson_preview/lesson7.jpg",
+      "description": "Описание урока 1",
+      "course": 3
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 8,
+    "fields": {
+      "title": "Урок 2",
+      "preview": "lesson_preview/lesson8.jpg",
+      "description": "Описание урока 2",
+      "course": 3
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 9,
+    "fields": {
+      "title": "Урок 3",
+      "preview": "lesson_preview/lesson9.jpg",
+      "description": "Описание урока 3",
+      "course": 3
+    }
+  }
+]
