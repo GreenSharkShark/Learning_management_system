@@ -21,3 +21,10 @@ class CourseSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_lessons_count(obj):
         return obj.lessons.count()
+
+
+class PaymentsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Payments
+        fields = '__all__'
