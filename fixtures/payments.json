@@ -1,0 +1,38 @@
+[
+  {
+    "model": "lms.payments",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "paid_lesson": 1,
+      "paid_course": null,
+      "payment_date": "2023-09-03T12:00:00Z",
+      "payment_amount": 1000,
+      "cash_payment": true
+    }
+  },
+  {
+    "model": "lms.payments",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "paid_lesson": null,
+      "paid_course": 1,
+      "payment_date": "2023-09-04T14:30:00Z",
+      "payment_amount": 1500,
+      "cash_payment": false
+    }
+  },
+  {
+    "model": "lms.payments",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "paid_lesson": 2,
+      "paid_course": null,
+      "payment_date": "2023-09-05T10:15:00Z",
+      "payment_amount": 800,
+      "cash_payment": true
+    }
+  }
+]
