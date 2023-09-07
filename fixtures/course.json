@@ -4,8 +4,8 @@
     "pk": 1,
     "fields": {
       "title": "Курс 1",
-      "preview": "course_preview/course1.jpg",
-      "description": "Описание курса 1"
+      "description": "Описание курса 1",
+      "owner": 4
     }
   },
   {
@@ -13,8 +13,8 @@
     "pk": 2,
     "fields": {
       "title": "Курс 2",
-      "preview": "course_preview/course2.jpg",
-      "description": "Описание курса 2"
+      "description": "Описание курса 2",
+      "owner": 4
     }
   },
   {
@@ -22,8 +22,8 @@
     "pk": 3,
     "fields": {
       "title": "Курс 3",
-      "preview": "course_preview/course3.jpg",
-      "description": "Описание курса 3"
+      "description": "Описание курса 3",
+      "owner": 4
     }
   }
 ]
