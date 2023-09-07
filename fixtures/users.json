@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "email": "user1@example.com",
-      "avatar": "users_img/avatar1.jpg",
+      "avatar": null,
       "phone": "+123456789",
       "country": "Страна 1",
       "is_active": true,
@@ -16,7 +16,7 @@
     "pk": 2,
     "fields": {
       "email": "user2@example.com",
-      "avatar": "users_img/avatar2.jpg",
+      "avatar": null,
       "phone": "+987654321",
       "country": "Страна 2",
       "is_active": true,
@@ -28,7 +28,7 @@
     "pk": 3,
     "fields": {
       "email": "user3@example.com",
-      "avatar": "users_img/avatar3.jpg",
+      "avatar": null,
       "phone": "+111222333",
       "country": "Страна 3",
       "is_active": true,
