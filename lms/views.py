@@ -4,7 +4,7 @@ from rest_framework.filters import OrderingFilter
 from lms.models import Course, Lesson, Payments
 from lms.serializers import CourseSerializer, LessonSerializer, PaymentsSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from lms.permissions import IsOwnerOrReadOnly, IsOwner
+from lms.permissions import IsOwnerOrReadOnly, IsOwner, StaffDenied
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -15,7 +15,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, StaffDenied]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()
@@ -43,7 +43,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner, StaffDenied]
 
 
 class PaymentsViewSet(viewsets.ModelViewSet):
