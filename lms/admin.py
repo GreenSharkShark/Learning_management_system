@@ -3,3 +3,4 @@ from lms.models import *
 
 admin.site.register(Lesson)
 admin.site.register(Course)
+admin.site.register(Subscription)
