@@ -9,6 +9,7 @@ from lms.permissions import IsOwnerOrReadOnly, IsOwner, StaffDenied
 from users.models import User
 from lms.paginators import LMSPaginator
 
+
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
