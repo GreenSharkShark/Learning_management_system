@@ -20,3 +20,12 @@ class IsOwnerOrReadOnly(BasePermission):
 
         # Разрешение записи разрешено только владельцу объекта
         return bool(obj.owner == request.user)
+
+
+class StaffDenied(BasePermission):
+
+    def has_permission(self, request, view):
+        if request.user.is_staff:
+            return False
+
+        return True
