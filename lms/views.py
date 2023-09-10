@@ -7,12 +7,14 @@ from lms.serializers import CourseSerializer, LessonSerializer, PaymentsSerializ
 from rest_framework.permissions import IsAuthenticated
 from lms.permissions import IsOwnerOrReadOnly, IsOwner
 from users.models import User
+from lms.paginators import LMSPaginator
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    pagination_class = LMSPaginator
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
@@ -29,6 +31,7 @@ class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    pagination_class = LMSPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
