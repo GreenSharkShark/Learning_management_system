@@ -1,11 +1,16 @@
+import stripe
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
+from rest_framework.response import Response
+
+from config import settings
 from lms.models import Course, Lesson, Payments, Subscription
 from lms.serializers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscriptionSerializer
 from rest_framework.permissions import IsAuthenticated
 from lms.permissions import IsOwnerOrReadOnly, IsOwner, StaffDenied
+from lms.services import generate_payment_intent, get_payment_status
 from users.models import User
 from lms.paginators import LMSPaginator
 
@@ -57,7 +62,23 @@ class PaymentsViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('paid_course', 'paid_lesson', 'cash_payment')
     ordering_fields = ('payment_date',)
-    permission_classes = [IsAuthenticated, IsOwner]
+
+    def perform_create(self, serializer):
+        amount = self.request.data.get('payment_amount')
+        payment_intent = generate_payment_intent(amount)
+        user = self.request.user
+        paid_lesson = self.request.data.get('paid_lesson')
+        paid_course = self.request.data.get('paid_course')
+        serializer.save(paid_lesson=paid_lesson, paid_course=paid_course, user=user)
+
+        payment_status = get_payment_status(payment_intent['id'])
+
+        if payment_status.status == 'requires_payment_method':
+            return Response({'message': 'Пожалуйста, завершите оплату.'}, status=status.HTTP_402_PAYMENT_REQUIRED)
+        elif payment_status.status == 'succeeded':
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'Произошла ошибка при обработке платежа.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class SubscriptionCreateAPIView(generics.CreateAPIView):
