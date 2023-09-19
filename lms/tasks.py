@@ -1,9 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.core.cache import cache
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from celery import shared_task
 from lms.models import Course, Subscription
+from users.models import User
 
 
 @shared_task
@@ -31,3 +32,16 @@ def check_course_updates() -> None:
         recipient_list=emails_to_send
     )
     cache.set('last_check_time', datetime.now(), 100)
+
+
+@shared_task
+def check_last_login() -> None:
+    """
+    Функция проверяет пользователей которые не авторизовывались больше 30 дней
+    и блокирует устанавливая флаг is_active = False
+    :return: None
+    """
+    current_datetime = datetime.now()
+    thirty_days_ago = current_datetime - timedelta(days=30)
+    inactive_users = User.objects.filter(last_login__lt=thirty_days_ago)
+    inactive_users.update(is_active=False)
