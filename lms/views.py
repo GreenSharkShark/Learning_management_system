@@ -11,6 +11,7 @@ from lms.serializers import CourseSerializer, LessonSerializer, PaymentsSerializ
 from rest_framework.permissions import IsAuthenticated
 from lms.permissions import IsOwnerOrReadOnly, IsOwner, StaffDenied
 from lms.services import generate_payment_intent, get_payment_status
+from lms.tasks import check_course_updates
 from users.models import User
 from lms.paginators import LMSPaginator
 
@@ -20,6 +21,13 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     pagination_class = LMSPaginator
+
+    def perform_update(self, serializer):
+        result = check_course_updates.delay()
+        # print(result.get())
+        # print(result.successful())
+        serializer.save()
+        super().perform_update(serializer)
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
