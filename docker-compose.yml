@@ -1,0 +1,46 @@
+version: '3.11'
+
+services:
+  database:
+    image: postgres:15.3-alpine
+
+    env_file:
+      - .env
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  lms_api:
+
+    build:
+      context: .
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+    tty: false
+
+    volumes:
+      - .:/drf_homeworks
+
+    restart: on-failure
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  lms_api:
+  db:
+    driver: local
