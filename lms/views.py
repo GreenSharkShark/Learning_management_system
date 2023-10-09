@@ -1,11 +1,8 @@
-import stripe
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
-
-from config import settings
 from lms.models import Course, Lesson, Payments, Subscription
 from lms.serializers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscriptionSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -23,11 +20,14 @@ class CourseViewSet(viewsets.ModelViewSet):
     pagination_class = LMSPaginator
 
     def perform_update(self, serializer):
-        result = check_course_updates.delay()
-        # print(result.get())
-        # print(result.successful())
-        serializer.save()
+        updated_object = serializer.save()
+        check_course_updates.delay(updated_object.id)
         super().perform_update(serializer)
+
+    def perform_create(self, serializer):
+        new_course = serializer.save()
+        new_course.owner = self.request.user
+        new_course.save()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):

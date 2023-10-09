@@ -1,6 +1,4 @@
 from datetime import datetime, timedelta
-from django.utils import timezone
-from django.core.cache import cache
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from celery import shared_task
@@ -9,23 +7,13 @@ from users.models import User
 
 
 @shared_task
-def check_course_updates() -> None:
+def check_course_updates(updated_object_pk) -> None:
     """
-    Функция проверяет дату последнего обновления объекта и сравнивает с кэшем,
-    если объект обновился - отправляет сообщение
+    Принимает на вход id обновленного курса, выбирает почты всех подписчиков курса и отправляет уведомления
     :return: None
     """
-    last_check_time = cache.get('last_check_time')
-    if not last_check_time:
-        cache.set('last_check_time', timezone.now(), 100)
-        last_check_time = cache.get('last_check_time')
 
-    updated_courses = Course.objects.filter(last_update_date__gt=last_check_time)
-    if not updated_courses:
-        cache.set('last_check_time', timezone.now(), 100)
-        return
-
-    subscriptions = Subscription.objects.filter(course__in=updated_courses).select_related('owner').distinct()
+    subscriptions = Subscription.objects.filter(course=updated_object_pk).select_related('owner').distinct()
     emails_to_send = list(subscriptions.values_list('owner__email', flat=True))
     send_mail(
         subject='Обновление курса',
@@ -33,7 +21,6 @@ def check_course_updates() -> None:
         from_email=EMAIL_HOST_USER,
         recipient_list=emails_to_send
     )
-    cache.set('last_check_time', timezone.now(), 100)
 
 
 @shared_task
