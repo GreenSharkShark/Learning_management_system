@@ -1,4 +1,3 @@
-pip install python3.11
 pip install poetry
 poetry shell
 poetry install
